@@ -10,7 +10,7 @@ namespace DL
     {
         public static string GetConnection()
         {
-            return "Data Source=.;Initial Catalog=JGuevaraProgramacionNCapasJunio;User ID=sa;Password=pass@word1;Encrypt=False";
+            return "Data Source=Alien3;Initial Catalog=JGuevaraProgramacionNCapasJunio;User ID=sa;Password=Qwerty123456$$$#;Encrypt=False";
         }
     }
 }
