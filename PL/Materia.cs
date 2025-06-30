@@ -26,6 +26,50 @@ namespace PL
             Console.WriteLine(mensaje);
         }
 
+        
+        public static void GetAll()
+        {
+            List<object> materias = BL.Materia.GetAll();
+            if(materias.Count > 0)
+            {
+                foreach (ML.Materia materia in materias)
+                {
+                    Console.WriteLine("*************");
+                    Console.WriteLine(materia.IdMateria);
+                    Console.WriteLine(materia.Nombre);
+                    Console.WriteLine(materia.Creditos);
+                    Console.WriteLine(materia.Costo);
+                    Console.WriteLine("*************");
+                }
+            }
+            else
+            {
+                Console.WriteLine("No hay registros");
+            }
+        }
+
+        public static void GetById()
+        {
+            Console.WriteLine("Dame el Id a buscar");
+            int IdMateria = Convert.ToInt16(Console.ReadLine());
+
+            ML.Materia materia = BL.Materia.GetById(IdMateria);
+
+            if(materia != null)
+            {
+                Console.WriteLine("*************");
+                Console.WriteLine(materia.IdMateria);
+                Console.WriteLine(materia.Nombre);
+                Console.WriteLine(materia.Creditos);
+                Console.WriteLine(materia.Costo);
+                Console.WriteLine("*************");
+            }
+            else
+            {
+                Console.WriteLine("No se encontro materia");
+            }
+
+        }
 
     }
 }

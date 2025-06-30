@@ -12,7 +12,8 @@ namespace PL
         {
             //ejecuta
 
-            Materia.Add();
+            Materia.GetById();
+            Console.ReadKey();
         }
     }
 }
