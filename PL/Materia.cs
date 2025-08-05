@@ -21,18 +21,18 @@ namespace PL
             Console.WriteLine("Dame el costo");
             materia.Costo = Convert.ToDecimal(Console.ReadLine());
 
-            string mensaje = BL.Materia.Add(materia);
+            ML.Result result = BL.Materia.Add(materia);
 
-            Console.WriteLine(mensaje);
+            Console.WriteLine(result);
         }
 
         
         public static void GetAll()
         {
-            List<object> materias = BL.Materia.GetAll();
-            if(materias.Count > 0)
+            ML.Result result = BL.Materia.GetAll();
+            if(result.Correct)
             {
-                foreach (ML.Materia materia in materias)
+                foreach (ML.Materia materia in result.Objects)
                 {
                     Console.WriteLine("*************");
                     Console.WriteLine(materia.IdMateria);
@@ -53,10 +53,11 @@ namespace PL
             Console.WriteLine("Dame el Id a buscar");
             int IdMateria = Convert.ToInt16(Console.ReadLine());
 
-            ML.Materia materia = BL.Materia.GetById(IdMateria);
+            ML.Result result = BL.Materia.GetById(IdMateria);
 
-            if(materia != null)
+            if(result.Correct)
             {
+                ML.Materia materia = (ML.Materia)result.Object;
                 Console.WriteLine("*************");
                 Console.WriteLine(materia.IdMateria);
                 Console.WriteLine(materia.Nombre);

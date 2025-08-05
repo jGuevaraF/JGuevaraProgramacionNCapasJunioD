@@ -1,0 +1,99 @@
+﻿@model ML.Materia
+@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h2>Form</h2>
+
+    @using (Html.BeginForm("Form", "Materia", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.HiddenFor(model => model.IdMateria, new { @class = "form-label" })
+        @Html.HiddenFor(model => model.IdMateria, new { @class = "form-control" })
+
+        <div class="row">
+            <div class="col-4">
+                @Html.LabelFor(model => model.Nombre, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control" })
+            </div>
+            <div class="col-4">
+                @Html.LabelFor(model => model.Creditos, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.Creditos, new { @class = "form-control" })
+            </div>
+            <div class="col-4">
+                @Html.LabelFor(model => model.Costo, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.Costo, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-4">
+            @Html.LabelFor(model => model.Semestre.IdSemestre, new { @class = "form-label" })
+            @Html.DropDownListFor(model => model.Semestre.IdSemestre, new SelectList(Model.Semestre.Semestres, "IdSemestre", "Nombre"), "Selecciona un semestre", new { @class = "form-select form-select-lg mb-3" })
+        </div>
+        <div class="col-4">
+            <input type="text" id="datepicker">
+        </div>
+
+
+
+        <div class="col-4">
+            <input id="imagenUsuario" name="imagenUsuario" type="file" onchange="ValidarImagen(), VisualizarImagen(this)" class="form-control" />
+            @if (Model.Imagen == null || Model.Imagen.Length == 0)
+            {
+                <img id="verImagen" src="~/Content/IMG/ImagenDefault.png" width="350" height="350" />
+            }
+            else
+            {
+                <img id="verImagen" src="data:imagen/*;base64,@Convert.ToBase64String(Model.Imagen)" width="350" height="350" />
+            }
+            @Html.HiddenFor(model => model.Imagen);
+
+        </div>
+
+        <button class="btn btn-success" type="submit">Enviar</button>
+    }
+</div>
+
+
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+
+<script>
+    DatePicker();
+
+    function ValidarImagen() {
+        //png jpg, jpeg
+        var extensionesValidas = ['png', 'jpg', 'jpeg']
+        var extensionArchivo = document.getElementById("imagenUsuario").value.split('.').pop().toLowerCase()
+        //jpeg
+        var archivoValido = false
+        for (var index in extensionesValidas) {
+            if (extensionArchivo == extensionesValidas[index]) {
+                archivoValido = true;
+                break;
+            }
+        }
+        if (!archivoValido) {
+            alert("Selecciona una imagen valida")
+            document.getElementById("imagenUsuario").value = "";
+        }
+    }
+
+    function VisualizarImagen(input) {
+        if (input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                $("#verImagen").attr('src', event.target.result)
+            }
+            reader.readAsDataURL(input.files[0])
+        }
+    }
+
+    function DatePicker() {
+        $("#datepicker").datepicker({
+            dateFormat: "dd-mm-yy"
+        });
+    }
+</script>

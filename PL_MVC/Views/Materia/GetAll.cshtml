@@ -1,0 +1,42 @@
+﻿@model ML.Materia
+@{
+    ViewBag.Title = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>GetAll</h2>
+
+@Html.ActionLink("+ Agregar", "Form", "Materia", new { @class = "btn btn-success" })
+
+@if (Model.Materias != null)
+{
+    <table class="table table-dark table-striped">
+        <tr>
+            <th>Editar</th>
+            <th>Id Materia</th>
+            <th>Nombre</th>
+            <th>Creditos</th>
+            <th>Costo</th>
+            <th>Eliminar</th>
+        </tr>
+        @foreach (ML.Materia materia in Model.Materias)
+        {
+            <tr>
+                <td><a href="@Url.Action("Form","Materia", new {IdMateria = materia.IdMateria })" class="btn btn-warning"><i class="bi bi-pencil-square"></i></a></td>
+                <td>@materia.IdMateria</td>
+                <td>@materia.Nombre</td>
+                <td>@materia.Creditos</td>
+                <td>@materia.Costo</td>
+                <td><a href="@Url.Action("Delete","Materia", new {IdMateria = materia.IdMateria })" onclick="return confirm('Estas seguro que quieres eliminar esta materia?')" class="btn btn-danger"><i class="bi bi-trash"></i></a></td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <div class="alert alert-danger" role="alert">
+        No hay registros
+    </div>
+}
+
+

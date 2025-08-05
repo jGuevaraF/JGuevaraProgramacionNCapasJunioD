@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace DL
     {
         public static string GetConnection()
         {
-            return "Data Source=Alien3;Initial Catalog=JGuevaraProgramacionNCapasJunio;User ID=sa;Password=Qwerty123456$$$#;Encrypt=False";
+            return ConfigurationManager.ConnectionStrings["JGuevaraProgamacionNCapas"].ToString() ;
         }
     }
 }
