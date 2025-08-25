@@ -10,6 +10,8 @@ namespace BL
 {
     public class Semestre
     {
+
+        //Store procedure
         public static ML.Result GetAllSP()
         {
             ML.Result result = new ML.Result();
@@ -54,6 +56,50 @@ namespace BL
 
                 }
 
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.exception = ex;
+            }
+            return result;
+        }
+
+
+        //LINQ
+        public static ML.Result GetAllLinq()
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                //intenta
+                using (DL_EF.JGuevaraProgramacionNCapasJunioEntities context = new DL_EF.JGuevaraProgramacionNCapasJunioEntities())
+                {
+                    var listaSemestres = (
+                        from semestre in context.Semestes
+                        select new
+                        {
+                            semestre.IdSemestre,
+                            semestre.Nombre
+                        }).ToList();
+
+                    //inicializa lista
+                    result.Objects = new List<object>();
+
+                    if (listaSemestres.Count > 0)
+                    {
+                        foreach(var semestre in listaSemestres)
+                        {
+                            ML.Semestre semestreItem = new ML.Semestre();
+                            semestreItem.IdSemestre = semestre.IdSemestre;
+                            semestreItem.Nombre = semestre.Nombre;
+
+                            result.Objects.Add(semestreItem);
+                        }
+                        result.Correct = true;
+                    }
+                }
             }
             catch (Exception ex)
             {

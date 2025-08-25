@@ -10,9 +10,7 @@ namespace PL
     {
         static void Main(string[] args)
         {
-            //ejecuta
-
-            Materia.GetById();
+            Materia.LeerTxt();
             Console.ReadKey();
         }
     }

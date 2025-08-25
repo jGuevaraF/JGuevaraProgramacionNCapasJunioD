@@ -6,7 +6,64 @@
 
 <h2>GetAll</h2>
 
-@Html.ActionLink("+ Agregar", "Form", "Materia", new { @class = "btn btn-success" })
+<div class="mb-3">
+    @Html.ActionLink("+ Agregar", "Form", "Materia", null, new { @class = "btn btn-success shadow-sm" })
+</div>
+
+@* botones *@
+<div class="d-flex gap-2 mb-3">
+    <button id="btnFiltro" class="btn btn-primary">Filtrar</button>
+</div>
+
+<div id="formContainer">
+
+    @* busqueda abierta *@
+    <div id="formFiltro" class="card shadow-sm d-none mb-2">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Filtrar Materias</h5>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("GetAll", "Materia", FormMethod.Post))
+            {
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-4">
+                        @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "form-label fw-bold" })
+                        @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", placeholder = "Nombre de la materia" })
+                    </div>
+
+                    <div class="col-md-4">
+                        @Html.LabelFor(model => model.Semestre.IdSemestre, htmlAttributes: new { @class = "form-label fw-bold" })
+                        @Html.DropDownListFor(
+                            model => model.Semestre.IdSemestre,
+                            new SelectList(Model.Semestre.Semestres, "IdSemestre", "Nombre"),
+                            "Selecciona un semestre",
+                            new { @class = "form-select" }
+                        )
+                    </div>
+
+                    <div class="col-md-4 text-end">
+                        <button type="submit" class="btn btn-primary shadow-sm">
+                            <i class="bi bi-search"></i> Aplicar Filtro
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
+
+<div>
+    @using (Html.BeginForm("CargaMasiva", "Materia", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <label>Carga masiva</label>
+        <input type="file" accept=".txt" name="archivoTxt" />
+        <button type="submit" class="btn btn-primary"> Carga masiva</button>
+    }
+</div>
+
+
+
 
 @if (Model.Materias != null)
 {
@@ -22,12 +79,12 @@
         @foreach (ML.Materia materia in Model.Materias)
         {
             <tr>
-                <td><a href="@Url.Action("Form","Materia", new {IdMateria = materia.IdMateria })" class="btn btn-warning"><i class="bi bi-pencil-square"></i></a></td>
+                <td><a href="@Url.Action("Form", "Materia", new { IdMateria = materia.IdMateria })" class="btn btn-warning"><i class="bi bi-pencil-square"></i></a></td>
                 <td>@materia.IdMateria</td>
                 <td>@materia.Nombre</td>
                 <td>@materia.Creditos</td>
                 <td>@materia.Costo</td>
-                <td><a href="@Url.Action("Delete","Materia", new {IdMateria = materia.IdMateria })" onclick="return confirm('Estas seguro que quieres eliminar esta materia?')" class="btn btn-danger"><i class="bi bi-trash"></i></a></td>
+                <td><a href="@Url.Action("Delete", "Materia", new { IdMateria = materia.IdMateria })" onclick="return confirm('Estas seguro que quieres eliminar esta materia?')" class="btn btn-danger"><i class="bi bi-trash"></i></a></td>
             </tr>
         }
     </table>
@@ -40,3 +97,29 @@ else
 }
 
 
+<script>
+    const btnFiltro = document.getElementById("btnFiltro");
+    const btnCarga = document.getElementById("btnCarga");
+    const formFiltro = document.getElementById("formFiltro");
+    const formCarga = document.getElementById("formCarga");
+
+    btnFiltro.addEventListener("click", () => {
+        // Si está visible => ocultar
+        if (!formFiltro.classList.contains("d-none")) {
+            formFiltro.classList.add("d-none");
+        } else {
+            formFiltro.classList.remove("d-none");
+            formCarga.classList.add("d-none"); // oculta el otro
+        }
+    });
+
+    btnCarga.addEventListener("click", () => {
+        // Si está visible => ocultar
+        if (!formCarga.classList.contains("d-none")) {
+            formCarga.classList.add("d-none");
+        } else {
+            formCarga.classList.remove("d-none");
+            formFiltro.classList.add("d-none"); // oculta el otro
+        }
+    });
+</script>

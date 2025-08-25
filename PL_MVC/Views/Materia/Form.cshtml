@@ -31,10 +31,10 @@
             @Html.DropDownListFor(model => model.Semestre.IdSemestre, new SelectList(Model.Semestre.Semestres, "IdSemestre", "Nombre"), "Selecciona un semestre", new { @class = "form-select form-select-lg mb-3" })
         </div>
         <div class="col-4">
-            <input type="text" id="datepicker">
-        </div>
-
-
+            @Html.LabelFor(model => model.FechaNacimiento, new { @class = "form-label" })
+            @Html.TextBoxFor(model => model.FechaNacimiento, new { @class = "form-control", @id = "datepicker" })
+        </div>  
+         
 
         <div class="col-4">
             <input id="imagenUsuario" name="imagenUsuario" type="file" onchange="ValidarImagen(), VisualizarImagen(this)" class="form-control" />
